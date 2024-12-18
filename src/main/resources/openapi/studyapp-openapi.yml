@@ -12,6 +12,9 @@ paths:
   /auth/register:
     post:
       summary: Register a new user
+      tags:
+        - Authentication
+      operationId: registerUser
       requestBody:
         description: Registration details
         required: true
@@ -28,6 +31,9 @@ paths:
   /auth/login:
     post:
       summary: Login a user
+      tags:
+        - Authentication
+      operationId: loginUser
       requestBody:
         description: Login credentials
         required: true
@@ -48,6 +54,9 @@ paths:
   /subjects:
     get:
       summary: Get list of subjects
+      tags:
+        - Subjects
+      operationId: getSubjects
       responses:
         '200':
           description: List of subjects offered
@@ -61,6 +70,9 @@ paths:
   /students/{studentId}/subjects:
     post:
       summary: Select subjects for a student
+      tags:
+        - Students
+      operationId: selectStudentSubjects
       parameters:
         - name: studentId
           in: path
@@ -85,6 +97,9 @@ paths:
   /students/{studentId}/tutors:
     get:
       summary: Get list of tutors for selected subjects
+      tags:
+        - Tutors
+      operationId: getStudentTutors
       parameters:
         - name: studentId
           in: path
@@ -106,6 +121,9 @@ paths:
   /tutors/{tutorId}/courses:
     get:
       summary: Get list of courses taught by a tutor
+      tags:
+        - Courses
+      operationId: getTutorCourses
       parameters:
         - name: tutorId
           in: path
@@ -124,29 +142,11 @@ paths:
         '404':
           description: Tutor not found
 
-  /students/{studentId}/courses/{courseId}/enroll:
-    post:
-      summary: Enroll a student in a course
-      parameters:
-        - name: studentId
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: courseId
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Enrollment successful
-        '404':
-          description: Student or Course not found
-
-  /tutors/{tutorId}/courses:
     post:
       summary: Create a course
+      tags:
+        - Courses
+      operationId: createTutorCourse
       parameters:
         - name: tutorId
           in: path
@@ -166,6 +166,29 @@ paths:
         '400':
           description: Validation error
 
+  /students/{studentId}/courses/{courseId}/enroll:
+    post:
+      summary: Enroll a student in a course
+      tags:
+        - Courses
+      operationId: enrollStudentInCourse
+      parameters:
+        - name: studentId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: courseId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Enrollment successful
+        '404':
+          description: Student or Course not found
+
 components:
   schemas:
     UserRegistrationDTO:
@@ -179,7 +202,7 @@ components:
           type: string
         role:
           type: string
-          enum: [student, tutor]
+          enum: [ student, tutor ]
 
     UserLoginDTO:
       type: object
@@ -236,3 +259,10 @@ components:
           type: string
         subjectId:
           type: string
+
+tags:
+  - Courses
+  - Subjects
+  - Students
+  - Tutors
+  - Authentication

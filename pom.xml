@@ -13,23 +13,18 @@
   <version>0.0.1-SNAPSHOT</version>
   <name>study-app-be</name>
   <description>study-app-be</description>
-  <url/>
-  <licenses>
-    <license/>
-  </licenses>
-  <developers>
-    <developer/>
-  </developers>
-  <scm>
-    <connection/>
-    <developerConnection/>
-    <tag/>
-    <url/>
-  </scm>
+
   <properties>
     <java.version>21</java.version>
+    <openapi.package.base>com.study-app</openapi.package.base>
+    <openapi-generator-maven-plugin.version>7.2.0</openapi-generator-maven-plugin.version>
   </properties>
   <dependencies>
+    <dependency>
+      <groupId>org.openapitools</groupId>
+      <artifactId>openapi-generator</artifactId>
+      <version>6.6.0</version>
+    </dependency>
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-security</artifactId>
@@ -86,6 +81,36 @@
             </exclude>
           </excludes>
         </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.openapitools</groupId>
+        <artifactId>openapi-generator-maven-plugin</artifactId>
+        <version>6.6.0</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>generate</goal>
+            </goals>
+            <configuration>
+              <inputSpec>${project.basedir}/src/main/resources/openapi/studyapp-openapi.yml</inputSpec>
+              <output>${project.basedir}/target/generated-sources/openapi</output>
+              <generatorName>spring</generatorName>
+              <generateSupportingFiles>false</generateSupportingFiles>
+              <configOptions>
+                <useJakartaEe>true</useJakartaEe>
+                <skipDefaultInterface>true</skipDefaultInterface>
+                <basePackage>com.study-app</basePackage>
+                <throwsException>true</throwsException>
+                <useBeanValidation>true</useBeanValidation>
+              </configOptions>
+              <additionalProperties>
+                <apiPackage>${openapi.package.base}.api</apiPackage>
+                <modelPackage>${openapi.package.base}.models</modelPackage>
+                <invokerPackage>${openapi.package.base}.invoker</invokerPackage>
+              </additionalProperties>
+            </configuration>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>
