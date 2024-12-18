@@ -1,0 +1,238 @@
+openapi: 3.0.3
+info:
+  title: Learning Platform API
+  description: API for managing a learning platform for students and tutors
+  version: 1.0.0
+
+servers:
+  - url: https://api.learningplatform.com/v1
+    description: Production server
+
+paths:
+  /auth/register:
+    post:
+      summary: Register a new user
+      requestBody:
+        description: Registration details
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserRegistrationDTO'
+      responses:
+        '201':
+          description: User registered successfully
+        '400':
+          description: Validation error
+
+  /auth/login:
+    post:
+      summary: Login a user
+      requestBody:
+        description: Login credentials
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserLoginDTO'
+      responses:
+        '200':
+          description: Login successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponseDTO'
+        '401':
+          description: Unauthorized
+
+  /subjects:
+    get:
+      summary: Get list of subjects
+      responses:
+        '200':
+          description: List of subjects offered
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SubjectDTO'
+
+  /students/{studentId}/subjects:
+    post:
+      summary: Select subjects for a student
+      parameters:
+        - name: studentId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: List of subjects to select
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: string
+      responses:
+        '200':
+          description: Subjects selected successfully
+        '404':
+          description: Student not found
+
+  /students/{studentId}/tutors:
+    get:
+      summary: Get list of tutors for selected subjects
+      parameters:
+        - name: studentId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: List of tutors
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TutorDTO'
+        '404':
+          description: Student not found
+
+  /tutors/{tutorId}/courses:
+    get:
+      summary: Get list of courses taught by a tutor
+      parameters:
+        - name: tutorId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: List of courses
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CourseDTO'
+        '404':
+          description: Tutor not found
+
+  /students/{studentId}/courses/{courseId}/enroll:
+    post:
+      summary: Enroll a student in a course
+      parameters:
+        - name: studentId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: courseId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Enrollment successful
+        '404':
+          description: Student or Course not found
+
+  /tutors/{tutorId}/courses:
+    post:
+      summary: Create a course
+      parameters:
+        - name: tutorId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Course details
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCourseDTO'
+      responses:
+        '201':
+          description: Course created successfully
+        '400':
+          description: Validation error
+
+components:
+  schemas:
+    UserRegistrationDTO:
+      type: object
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+        role:
+          type: string
+          enum: [student, tutor]
+
+    UserLoginDTO:
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+
+    AuthResponseDTO:
+      type: object
+      properties:
+        token:
+          type: string
+        role:
+          type: string
+
+    SubjectDTO:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+
+    TutorDTO:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        subjects:
+          type: array
+          items:
+            $ref: '#/components/schemas/SubjectDTO'
+
+    CourseDTO:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+
+    CreateCourseDTO:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        subjectId:
+          type: string

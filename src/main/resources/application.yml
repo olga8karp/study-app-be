@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: study-app-be
+
+server:
+  port: 8081
