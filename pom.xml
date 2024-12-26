@@ -41,6 +41,12 @@
       <artifactId>hibernate-validator</artifactId>
       <version>8.0.1.Final</version>
     </dependency>
+
+  <dependency>
+    <groupId>org.springframework.data</groupId>
+    <artifactId>spring-data-jpa</artifactId>
+  </dependency>
+
     <dependency>
       <groupId>com.mysql</groupId>
       <artifactId>mysql-connector-j</artifactId>
@@ -118,7 +124,7 @@
               <generateModelTests>false</generateModelTests>
               <generateAliasAsModel>false</generateAliasAsModel>
               <generateApis>false</generateApis>
-              <modelPackage>udemy.springframework.model</modelPackage>
+              <modelPackage>com.studyapp.model</modelPackage>
               <configOptions>
                 <sourceFolder>src/gen/java/main</sourceFolder>
                 <useJakartaEe>true</useJakartaEe>

@@ -159,7 +159,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CreateCourseDTO'
+              $ref: '#/components/schemas/CourseDTO'
       responses:
         '201':
           description: Course created successfully
@@ -249,16 +249,8 @@ components:
           type: string
         description:
           type: string
-
-    CreateCourseDTO:
-      type: object
-      properties:
-        name:
-          type: string
-        description:
-          type: string
-        subjectId:
-          type: string
+        subject:
+          $ref: '#/components/schemas/SubjectDTO'
 
 tags:
   - Courses
