@@ -42,10 +42,10 @@
       <version>8.0.1.Final</version>
     </dependency>
 
-  <dependency>
-    <groupId>org.springframework.data</groupId>
-    <artifactId>spring-data-jpa</artifactId>
-  </dependency>
+    <dependency>
+      <groupId>org.springframework.data</groupId>
+      <artifactId>spring-data-jpa</artifactId>
+    </dependency>
 
     <dependency>
       <groupId>com.mysql</groupId>
@@ -84,6 +84,10 @@
     <dependency>
       <groupId>org.springframework.data</groupId>
       <artifactId>spring-data-commons</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-data-jpa</artifactId>
     </dependency>
   </dependencies>
 
@@ -124,6 +128,7 @@
               <generateModelTests>false</generateModelTests>
               <generateAliasAsModel>false</generateAliasAsModel>
               <generateApis>false</generateApis>
+              <apiPackage>com.studyapp.api</apiPackage>
               <modelPackage>com.studyapp.model</modelPackage>
               <configOptions>
                 <sourceFolder>src/gen/java/main</sourceFolder>
@@ -131,6 +136,7 @@
                 <useBeanValidation>true</useBeanValidation>
                 <openApiNullable>false</openApiNullable>
                 <useBuilder>true</useBuilder>
+                <useTags>true</useTags>
                 <additionalModelTypeAnnotations>
                   @lombok.Builder
                   @lombok.AllArgsConstructor
